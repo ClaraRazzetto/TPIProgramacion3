@@ -1,0 +1,61 @@
+ Hay dos roles :
+				usuario => admin 
+						El administrador puede:
+							- Crear editar o eliminar su cuenta
+							- cargar, editar stock del producto y eliminar productos
+							- Consultar las ordenes de venta
+				usuario => client
+						 El cliente puede:
+							- Crear editar o eliminar su cuenta
+							- Consultar los productos disponibles 
+								** Extra: Filtrados por categoria 
+							- Crear, editar o eliminar la orden de venta
+								* Cuando se agrega un producto a la orden, se baja automaticamente el stock
+
+
+
+Controllers:  endopoits => maneja HTTP request (recepción de datos) y  presentación de informacion
+
+Data: capa donde se trabaja con datos => contiene mecanismos para acceder a la información y actualizar su estado
+	Models
+		Entities : definición de estructura de datos
+			
+			User: id, name, lastName, password, email, userName, Role (admin/client)
+				Client: adress, telephoneNumber
+				Admin:
+			
+			Product: id, name, category, size, price
+
+			SaleOrder: id, client, list<Products>, Total
+		
+		DTOs: data transfer object se usa para convertir a json el objeto en c# y devolverlo al cliente 
+
+		La entidad y el DTO no siempre se corresponden, por ejemplo:
+		- devuelvo los datos del usuario sin mandar la contraseña o devuelvo el producto sin mostrar el stock 
+
+		dbContext defino que tablas estan disponibles para usar desde el codigo
+
+	Migrations: se crea por comando pasa a bd todo lo que esta en codigo referido a EntityFramework
+	Crea dos archivos: donde pasa lo creado a un lenguaje "intermedio" y otro archivo con el estado de la bd en este momento
+						
+
+
+	Repositories: abstraccion que reduce la complejidad y apunta a que el código sea más seguro 
+	y que se abstraiga de la forma en que persistimos los datos (persistence ingnorat)
+	Es decir, vamos a tener una capa de código que va a actuar de medidador entre el código de la app 
+	y lo que sea que acceda a la base de datos
+
+	persistance ignorant: nos permite usar la mejor implementacion y tecnología para cada método sin que esto influya en el código
+
+	Por ejemplo, si vamos a listar los usuarios y no queremos que nos muestre las contraseñas 
+	Hacemos un método getAll y especificamos lo que queremos mostrar, luego, llamamos a este método cada 
+	vez que queremos usarlo y evitamos repetir codigo 
+
+	Ventajas de usarlo: no hay duplicación de codigo, menos propencion a error, más facil de testear 
+
+	Interfaz: es una clase que define un "contrato"
+	- donde se pueden declarar, sin implementación, propiedades y métodos (indexadores y eventos)
+	- Se pueden incluir implementaciones, en algunos casos, que serán implementaciones predeterminadas 
+	para las clases que no tengan una implementación propia
+	Las clases que implementan la interfaz si o si deben utilizar las propiedades y métodos que está proporciona
+
