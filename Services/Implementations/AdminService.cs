@@ -20,7 +20,7 @@ namespace Shop.API.Services.Implementations
         }
         public AdminDTO GetAdminById(int adminId)
         {
-            var admin2 = _userRepository.GetUserById(adminId);
+            var admin2 = _userRepository.GetUserById(adminId, "Admin");
             return _mapper.Map<AdminDTO>(admin2);
         }
 
@@ -34,7 +34,7 @@ namespace Shop.API.Services.Implementations
 
         public void UpdateAdmin(AdminToUpdateDTO adminToUpdateDTO, int adminId)
         {
-            var adminToUpdate = _userRepository.GetUserById(adminId);
+            var adminToUpdate = _userRepository.GetUserById(adminId, "Admin");
 
             _mapper.Map(adminToUpdateDTO, adminToUpdate);
             _userRepository.UpdateUser(adminToUpdate);

@@ -24,7 +24,7 @@ namespace Shop.API.Services.Implementations
         }
         public ClientDTO GetClientById(int userId)
         {
-            var client = _userRepository.GetUserById(userId);
+            var client = _userRepository.GetUserById(userId, "Client");
             return _mapper.Map<ClientDTO>(client);
         }
        
@@ -37,7 +37,7 @@ namespace Shop.API.Services.Implementations
         }
         public void UpdateClient(ClientToUpdateDTO clientToUpdateDTO, int clientId)
         {
-            var clientToUpdate = _userRepository.GetUserById(clientId);
+            var clientToUpdate = _userRepository.GetUserById(clientId, "Client");
             _mapper.Map(clientToUpdateDTO, clientToUpdate);
             _userRepository.UpdateUser(clientToUpdate);
             _userRepository.SaveChanges();

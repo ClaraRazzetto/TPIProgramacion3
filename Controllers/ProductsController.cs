@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shop.API.Models.ProductDTOs;
 using Shop.API.Services.Interfaces;
+using System.Security.Claims;
 
 namespace Shop.API.Controllers
 {
     [ApiController]
     [Route("api/products")]
+    [Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -16,16 +19,18 @@ namespace Shop.API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<ICollection<ProductDTO>> GetAllProducts()
         {
             var products = _productService.GetAllProducts();
             return Ok(products);
         }
 
-        [HttpGet("{id}", Name = "GetProduct")]
-        public ActionResult<ProductDTO> GetProduct(int id) 
+        [HttpGet("{productId}", Name = "GetProduct")]
+        [AllowAnonymous]
+        public ActionResult<ProductDTO> GetProduct(int productId) 
         {
-            var product = _productService.GetProductById(id);
+            var product = _productService.GetProductById(productId);
             if(product == null) 
                 return NotFound();
             return Ok(product);
@@ -34,20 +39,29 @@ namespace Shop.API.Controllers
         [HttpPost]
         public ActionResult<ProductDTO> AddProduct(ProductToCreateDTO product) 
         {
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+            if (userRole != "Admin")
+                return Forbid();
             var createdProduct = _productService.AddProduct(product);
-            return CreatedAtRoute("GetProduct", new { id = createdProduct.Id }, createdProduct);
+            return CreatedAtRoute("GetProduct", new { productId = createdProduct.Id }, createdProduct);
         }
 
-        [HttpPut("{id}/UpdateStock")]
-        public ActionResult<ProductDTO> UpdateProductStock (ProductStockDTO newStock, int id) 
+        [HttpPut]
+        public ActionResult<ProductDTO> UpdateProductStock (ProductStockDTO newStock, int productId) 
         {
-            _productService.UpdateProductStock(newStock.Stock, id);
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+            if (userRole != "Admin")
+                return Forbid();
+            _productService.UpdateProductStock(newStock.Stock, productId);
             return NoContent();
         }
 
         [HttpDelete("{productId}")]
         public ActionResult DeleteProduct(int productId) 
         {
+            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+            if (userRole != "Admin")
+                return Forbid();
             _productService.DeleteProduct(productId);
             return NoContent();
         }

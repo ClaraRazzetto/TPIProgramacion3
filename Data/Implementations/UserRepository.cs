@@ -17,9 +17,9 @@ namespace Shop.API.Data.Implementations
         {
             return _context.Users.Where(u => u.Role == role).ToList();
         }
-        public User? GetUserById(int userId) 
+        public User? GetUserById(int userId, string role) 
         {
-            return _context.Users.Find(userId);
+            return _context.Users.FirstOrDefault(u => u.Role == role && u.Id == userId);
         }
         public void AddUser(User newUser)
         {

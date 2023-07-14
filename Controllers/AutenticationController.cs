@@ -39,7 +39,7 @@ namespace Shop.API.Controllers
             var claimsForToken = new List<Claim>();
             claimsForToken.Add(new Claim("sub", user.Id.ToString()));
             claimsForToken.Add(new Claim("given_name", user.UserName));
-            claimsForToken.Add(new Claim("role", authenticationRequestBody.Role ?? "Client"));
+            claimsForToken.Add(new Claim("Roles", authenticationRequestBody.Role ?? "Client"));
 
             var jwtSecurityToken = new JwtSecurityToken(
               _config["Authentication:Issuer"],

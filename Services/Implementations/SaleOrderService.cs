@@ -29,10 +29,10 @@ namespace Shop.API.Services.Implementations
             var saleOrders = _saleOrderRepository.GetAllSaleOrders();
             return _mapper.Map<ICollection<SaleOrderDTO>>(saleOrders);
         }
-        public SaleOrderDTO AddSaleOrder(SaleOrderToCreateDTO SaleOrderToCreateDTO)
+        public SaleOrderDTO AddSaleOrder(SaleOrderToCreateDTO SaleOrderToCreateDTO, int clientId)
         {
             var newSaleOrder = _mapper.Map<SaleOrder>(SaleOrderToCreateDTO);
-            
+            newSaleOrder.ClientId = clientId;
             _saleOrderRepository.AddSaleOrder(newSaleOrder);
             _saleOrderRepository.SaveChanges();
 
