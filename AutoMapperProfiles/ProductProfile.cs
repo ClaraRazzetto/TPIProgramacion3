@@ -10,7 +10,6 @@ namespace Shop.API.AutoMapperProfiles
         {
             CreateMap<Product, ProductDTO>();
             CreateMap<ProductToCreateDTO, Product>();
-            CreateMap<ProductStockDTO, Product>();
         }
     }
 }

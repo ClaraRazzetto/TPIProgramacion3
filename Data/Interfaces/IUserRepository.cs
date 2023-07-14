@@ -5,7 +5,12 @@ namespace Shop.API.Data.Interfaces
 {
     public interface IUserRepository : IRepository
     {
-        User? ValidateUser(AuthenticationRequestBody authenticationRequestBody);
+        public ICollection<User> GetAllUsers(string role);
+        public User? GetUserById(int userId);
+        public void AddUser(User newUser);
+        public void UpdateUser(User userToUpdate);
         public void DeleteUser(int userId);
+        User? ValidateUser(AuthenticationRequestBody authenticationRequestBody);
+
     }
 }

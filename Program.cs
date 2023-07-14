@@ -66,7 +66,6 @@ builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntentica
 //Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
-builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ISaleOrderRepository, SaleOrderRepository>();
 //

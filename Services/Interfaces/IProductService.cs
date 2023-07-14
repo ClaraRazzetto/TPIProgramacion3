@@ -8,7 +8,7 @@ namespace Shop.API.Services.Interfaces
         public ProductDTO? GetProductById(int productId);
         public IEnumerable<ProductDTO> GetAllProducts();
         public ProductDTO AddProduct(ProductToCreateDTO productToCreateDTO);
-        public void UpdateProduct(int newStock, int productId);
+        public void UpdateProductStock(int newStock, int productId);
         public void DeleteProduct(int productId);
     }
 }

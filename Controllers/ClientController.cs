@@ -8,7 +8,6 @@ namespace Shop.API.Controllers
 {
     [ApiController]
     [Route("api/client")]
-    [Authorize]
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;

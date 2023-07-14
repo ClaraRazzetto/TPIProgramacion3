@@ -8,37 +8,37 @@ namespace Shop.API.Services.Implementations
 {
     public class AdminService : UserService, IAdminService
     {
-        private readonly IAdminRepository _adminRepository;
-        public AdminService(IUserRepository userRepository, IMapper mapper, IAdminRepository adminRepository) : base(userRepository, mapper)
+        public AdminService(IUserRepository userRepository, IMapper mapper) : base(userRepository, mapper)
         {
-            _adminRepository = adminRepository;
-        }
-        public AdminDTO GetAdminById(int adminId)
-        {
-            var admin = _adminRepository.GetAdminById(adminId);
-            return _mapper.Map<AdminDTO>(admin);
+
         }
 
         public ICollection<AdminDTO> GetAllAdmins()
         {
-            var admins = _adminRepository.GetAllAdmins();
+            var admins = _userRepository.GetAllUsers("Admin");
             return _mapper.Map<ICollection<AdminDTO>>(admins);
+        }
+        public AdminDTO GetAdminById(int adminId)
+        {
+            var admin2 = _userRepository.GetUserById(adminId);
+            return _mapper.Map<AdminDTO>(admin2);
         }
 
         public AdminDTO AddAdmin(AdminToCreateDTO adminToCreateDTO)
         {
             var newAdmin = _mapper.Map<Admin>(adminToCreateDTO);
-            _adminRepository.AddAdmin(newAdmin);
-            _adminRepository.SaveChanges();
+            _userRepository.AddUser(newAdmin);
+            _userRepository.SaveChanges();
             return _mapper.Map<AdminDTO>(newAdmin);
         }
 
         public void UpdateAdmin(AdminToUpdateDTO adminToUpdateDTO, int adminId)
         {
-            var adminToUpdate = _adminRepository.GetAdminById(adminId);
+            var adminToUpdate = _userRepository.GetUserById(adminId);
+
             _mapper.Map(adminToUpdateDTO, adminToUpdate);
-            _adminRepository.UpdateAdmin(adminToUpdate);
-            _adminRepository.SaveChanges();
+            _userRepository.UpdateUser(adminToUpdate);
+            _userRepository.SaveChanges();
         }
 
     }

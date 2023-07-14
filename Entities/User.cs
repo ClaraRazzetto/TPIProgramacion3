@@ -21,5 +21,11 @@ namespace Shop.API.Entities
         public string UserName { get; set; }
         public string Role { get; set; }
 
+        [MaxLength(20)]
+        public string? Name { get; set; }
+        [MaxLength(30)]
+        public string? LastName { get; set; }
+        public string? Adress { get; set; }
+
     }
 }

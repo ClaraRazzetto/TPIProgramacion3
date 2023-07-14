@@ -11,11 +11,13 @@ namespace Shop.API.Services.Implementations
     {
         private readonly ISaleOrderRepository _saleOrderRepository;
         private readonly IMapper _mapper;
+        private readonly IProductService _productService;
 
-        public SaleOrderService(ISaleOrderRepository saleOrderRepository, IMapper mapper)
+        public SaleOrderService(ISaleOrderRepository saleOrderRepository, IMapper mapper, IProductService productService)
         {
             _saleOrderRepository = saleOrderRepository;
             _mapper = mapper;
+            _productService = productService;
         }
         public SaleOrderDTO? GetSaleOrder(int SaleOrderId)
         {
@@ -30,13 +32,16 @@ namespace Shop.API.Services.Implementations
         public SaleOrderDTO AddSaleOrder(SaleOrderToCreateDTO SaleOrderToCreateDTO)
         {
             var newSaleOrder = _mapper.Map<SaleOrder>(SaleOrderToCreateDTO);
+            
             _saleOrderRepository.AddSaleOrder(newSaleOrder);
             _saleOrderRepository.SaveChanges();
+
             return _mapper.Map<SaleOrderDTO>(newSaleOrder);
         }
 
         public void DeleteSaleOrder(int saleOrderId)
         {
+            var saleOrder = _saleOrderRepository.GetSaleOrder(saleOrderId);
             _saleOrderRepository.DeleteSaleOrder(saleOrderId);
             _saleOrderRepository.SaveChanges();
         }
@@ -44,8 +49,11 @@ namespace Shop.API.Services.Implementations
         public void UpdateSaleOrderStatus(SaleOrderStatus saleOrderStatus, int saleOrderId)
         {
             var saleOrderToUpdate = _saleOrderRepository.GetSaleOrder(saleOrderId);
-            _saleOrderRepository.UpdateSaleOrder(saleOrderToUpdate);
-            _saleOrderRepository.SaveChanges();
+            if (saleOrderToUpdate != null)
+            {
+                saleOrderToUpdate.Status = saleOrderStatus;
+                _saleOrderRepository.SaveChanges();
+            }
         }
     }
 }

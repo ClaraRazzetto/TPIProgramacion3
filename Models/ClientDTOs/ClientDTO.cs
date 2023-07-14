@@ -11,6 +11,5 @@ namespace Shop.API.Models.ClientDTOs
         public string LastName { get; set; }
         public string? Adress { get; set; }
         public string Email { get; set; }
-        public List<SaleOrder> SaleOrders { get; set; }
     }
 }

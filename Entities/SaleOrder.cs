@@ -20,7 +20,7 @@ namespace Shop.API.Entities
         public int ProductId { get; set; }
         public int ProductQuantity { get; set; }
         [Required]
-        public SaleOrderState State { get; set; }
+        public SaleOrderStatus Status { get; set; }
 
         public float Total
         {

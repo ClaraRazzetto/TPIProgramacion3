@@ -41,7 +41,7 @@ namespace Shop.API.Controllers
         [HttpPut("{id}/UpdateStock")]
         public ActionResult<ProductDTO> UpdateProductStock (ProductStockDTO newStock, int id) 
         {
-            _productService.UpdateProduct(newStock.Stock, id);
+            _productService.UpdateProductStock(newStock.Stock, id);
             return NoContent();
         }
 

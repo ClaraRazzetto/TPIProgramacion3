@@ -13,23 +13,19 @@ namespace Shop.API.Data.Implementations
    
         public ICollection<SaleOrder> GetAllSaleOrders()
         {
-            return _context.SaleOrders.OrderBy(s=> s.ClientId).ToList();
+            return _context.SaleOrders
+                .OrderBy(s => s.Status)
+                .ToList();    
         }
 
         public SaleOrder? GetSaleOrder(int SaleOrderId)
         {
-            return _context.SaleOrders.Find(SaleOrderId);
+            return _context.SaleOrders.FirstOrDefault(s => s.Id == SaleOrderId);
         }
         public void AddSaleOrder(SaleOrder newSaleOrder)
         {
             _context.SaleOrders.Add(newSaleOrder);
         }
-
-        public void UpdateSaleOrder(SaleOrder saleOrderToUpdate)
-        {
-            _context.Entry(saleOrderToUpdate).State = EntityState.Modified;
-        }
-
         public void DeleteSaleOrder(int saleOrderId)
         {
             var saleOrder = _context.SaleOrders.Find(saleOrderId);

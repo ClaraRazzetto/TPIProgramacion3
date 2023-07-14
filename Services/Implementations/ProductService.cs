@@ -38,12 +38,16 @@ namespace Shop.API.Services.Implementations
             return _mapper.Map<ProductDTO>(newProduct);
         }
         
-        public void UpdateProduct(int newStock, int productId)
+        public void UpdateProductStock(int newStock, int productId)
         {
             var productToUpdate = _productRepository.GetProductById(productId);
-            productToUpdate.Stock = newStock;
-            _productRepository.SaveChanges();
+            if(productToUpdate != null) 
+            { 
+                productToUpdate.Stock = newStock;
+                _productRepository.SaveChanges();
+            }
         }
+
         public void DeleteProduct(int productId)
         {
             _productRepository.DeleteProduct(productId);

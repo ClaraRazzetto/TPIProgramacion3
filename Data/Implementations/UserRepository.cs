@@ -13,6 +13,23 @@ namespace Shop.API.Data.Implementations
         {
         }
 
+        public ICollection<User> GetAllUsers(string role) 
+        {
+            return _context.Users.Where(u => u.Role == role).ToList();
+        }
+        public User? GetUserById(int userId) 
+        {
+            return _context.Users.Find(userId);
+        }
+        public void AddUser(User newUser)
+        {
+            _context.Users.Add(newUser);
+        }
+        public void UpdateUser(User userToUpdate)
+        {
+            _context.Entry(userToUpdate).State = EntityState.Modified;
+        }
+
         public void DeleteUser(int userId)
         {
             var user = _context.Users.Find(userId);

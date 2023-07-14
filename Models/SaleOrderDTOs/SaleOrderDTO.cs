@@ -8,10 +8,11 @@ namespace Shop.API.Models.SaleOrderDTOs
     {
         public int Id { get; set; }
         public int ClientId { get; set; }
-        public ICollection<Product> Products { get; set; } = new List<Product>();
+        public int ProductId { get; set;}
+        public int ProductQuantity { get; set; }
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public SaleOrderState State { get; set; }
+        public SaleOrderStatus Status { get; set; }
         public float Total { get; }
     }
 }

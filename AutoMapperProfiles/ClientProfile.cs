@@ -11,6 +11,10 @@ namespace Shop.API.AutoMapperProfiles
             CreateMap<Client, ClientDTO>();
             CreateMap<ClientToCreateDTO, Client>();
             CreateMap<ClientToUpdateDTO, Client>();
+
+            CreateMap<User, ClientDTO>();
+            CreateMap<ClientToCreateDTO, User>();
+            CreateMap<ClientToUpdateDTO, User>();
         }
     }
 }

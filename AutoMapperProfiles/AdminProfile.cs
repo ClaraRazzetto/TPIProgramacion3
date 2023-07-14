@@ -8,9 +8,10 @@ namespace Shop.API.AutoMapperProfiles
     {
         public AdminProfile() 
         {
-            CreateMap<Admin, AdminDTO>();
             CreateMap<AdminToCreateDTO, Admin>();
             CreateMap<AdminToUpdateDTO, Admin>();
+
+            CreateMap<User, AdminDTO>();
         }
     }
 }

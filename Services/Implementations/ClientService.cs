@@ -16,29 +16,31 @@ namespace Shop.API.Services.Implementations
         {
             _clientRepository = clientRepository;
         }
-        public ClientDTO GetClientById(int userId)
-        {
-            var client = _clientRepository.GetClientById(userId);
-            return _mapper.Map<ClientDTO>(client);
-        }
+
         public ICollection<ClientDTO> GetAllClients()
         {
-            var clients = _clientRepository.GetAllClients();
+            var clients = _userRepository.GetAllUsers("Client");
             return _mapper.Map<ICollection<ClientDTO>>(clients);
         }
+        public ClientDTO GetClientById(int userId)
+        {
+            var client = _userRepository.GetUserById(userId);
+            return _mapper.Map<ClientDTO>(client);
+        }
+       
         public ClientDTO AddClient(ClientToCreateDTO clientToCreateDTO)
         {
             var newClient = _mapper.Map<Client>(clientToCreateDTO);
-            _clientRepository.AddClient(newClient);
-            _clientRepository.SaveChanges();
+            _userRepository.AddUser(newClient);
+            _userRepository.SaveChanges();
             return _mapper.Map<ClientDTO>(newClient);
         }
         public void UpdateClient(ClientToUpdateDTO clientToUpdateDTO, int clientId)
         {
-            var clientToUpdate = _clientRepository.GetClientById(clientId);
+            var clientToUpdate = _userRepository.GetUserById(clientId);
             _mapper.Map(clientToUpdateDTO, clientToUpdate);
-            _clientRepository.UpdateClient(clientToUpdate);
-            _clientRepository.SaveChanges();
+            _userRepository.UpdateUser(clientToUpdate);
+            _userRepository.SaveChanges();
         }
 
         public ICollection<SaleOrderDTO> GetClientSaleOrders(int clientId)

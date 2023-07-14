@@ -11,31 +11,26 @@ namespace Shop.API.Data.Implementations
         {
         }
 
-        public void AddProduct(Product newProduct)
+        public IEnumerable<Product> GetAllProducts() 
+        {
+            return _context.Products
+                .OrderBy(p => p.Category)
+                .ThenBy(p => p.Name)
+                .ToList();
+        }
+        public Product? GetProductById(int productId)
+        {
+            return _context.Products.Find(productId);
+        }
+        public void AddProduct(Product newProduct) 
         {
             _context.Products.Add(newProduct);
         }
-
-        public void DeleteProduct(int productId)
+        public void DeleteProduct(int productId) 
         {
             var product = _context.Products.Find(productId);
             if (product != null) 
                 _context.Products.Remove(product);
         }
-
-        public IEnumerable<Product> GetAllProducts()
-        {
-            return _context.Products.OrderBy(p => p.Category).ToList();
-        }
-
-        public Product? GetProductById(int productId)
-        {
-            return _context.Products.Find(productId);
-        }
-
-        //public void UpdateProduct(Product productToUpdate)
-        //{
-        //    _context.Entry(productToUpdate).State = EntityState.Modified;
-        //}
     }
 }

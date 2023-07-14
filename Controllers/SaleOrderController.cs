@@ -32,14 +32,15 @@ namespace Shop.API.Controllers
         }
 
         [HttpPost]
+        [Route("/create")]
         public ActionResult<SaleOrderDTO> AddSaleOrder(SaleOrderToCreateDTO saleOrderToCreateDTO)
         {
             var createdSaleOrder = _saleOrderService.AddSaleOrder(saleOrderToCreateDTO);
-            return CreatedAtRoute("GetSaleOrder", new { id = createdSaleOrder.Id }, createdSaleOrder);
-            
+            return CreatedAtRoute("GetSaleOrder", new { saleOrderId = createdSaleOrder.Id }, createdSaleOrder);
+ 
         }
 
-        [HttpPut("{SaleOrderId}/ChangeStatus")]
+        [HttpPut("{saleOrderId}")]
         public ActionResult<SaleOrderDTO> ChangeSaleOrderStatus(int saleOrderId, SaleOrderStatusDTO newStatus) 
         {
             _saleOrderService.UpdateSaleOrderStatus(newStatus.Status, saleOrderId);
