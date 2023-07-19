@@ -50,8 +50,12 @@ namespace Shop.API.Services.Implementations
 
         public void DeleteProduct(int productId)
         {
-            _productRepository.DeleteProduct(productId);
-            _productRepository.SaveChanges();
+            var productToUpdate = _productRepository.GetProductById(productId);
+            if (productToUpdate != null)
+            {
+                productToUpdate.Status = Enums.ProductStatus.Eliminado;
+                _productRepository.SaveChanges();
+            }
         }
     }
 }

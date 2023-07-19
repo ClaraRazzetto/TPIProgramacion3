@@ -21,6 +21,8 @@ namespace Shop.API.Entities
         public float Price { get; set; }
         [Required]
         public int Stock { get; set; }
+        [Required]
+        public ProductStatus Status { get; set; }
         public ICollection<SaleOrder> SaleOrders { get; set; } = new List<SaleOrder>();
     }
 }

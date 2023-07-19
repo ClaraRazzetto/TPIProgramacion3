@@ -26,11 +26,6 @@ namespace Shop.API.Data.Implementations
         {
             _context.Products.Add(newProduct);
         }
-        public void DeleteProduct(int productId) 
-        {
-            var product = _context.Products.Find(productId);
-            if (product != null) 
-                _context.Products.Remove(product);
-        }
+      
     }
 }

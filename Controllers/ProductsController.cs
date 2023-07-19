@@ -56,8 +56,8 @@ namespace Shop.API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{productId}")]
-        public ActionResult DeleteProduct(int productId) 
+        [HttpPut("/DeleteProduct")]
+        public ActionResult DeleteProduct(int productId)
         {
             var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
             if (userRole != "Admin")
@@ -65,5 +65,7 @@ namespace Shop.API.Controllers
             _productService.DeleteProduct(productId);
             return NoContent();
         }
+
+        
     }
 }
