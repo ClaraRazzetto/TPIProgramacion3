@@ -8,7 +8,7 @@ namespace Shop.API.Controllers
 {
     [ApiController]
     [Route("api/admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
@@ -23,9 +23,9 @@ namespace Shop.API.Controllers
         [HttpGet]
         public ActionResult<ICollection<AdminDTO>> GetAllAdmins()
         {
-            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-            if (userRole != "Admin")
-                return Forbid();
+            //var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+            //if (userRole != "Admin")
+            //    return Forbid();
 
             var admins = _adminService.GetAllAdmins();
             return Ok(admins);

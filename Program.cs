@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Shop.API.Data.Implementations;
 using Shop.API.Data.Interfaces;
 using Shop.API.DBContexts;
+
 using Shop.API.Services.Implementations;
 using Shop.API.Services.Interfaces;
 using System.Text;
@@ -61,7 +63,6 @@ builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntentica
         };
     }
 );
-
 
 //Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();

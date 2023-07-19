@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Shop.API.Entities;
 using Shop.API.Models.ClientDTOs;
 using Shop.API.Models.SaleOrderDTOs;
 using Shop.API.Services.Interfaces;
@@ -10,7 +9,7 @@ namespace Shop.API.Controllers
 {
     [ApiController]
     [Route("api/client")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
