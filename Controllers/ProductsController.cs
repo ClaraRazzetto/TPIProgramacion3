@@ -8,7 +8,7 @@ namespace Shop.API.Controllers
 {
     [ApiController]
     [Route("api/products")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -39,9 +39,6 @@ namespace Shop.API.Controllers
         [HttpPost]
         public ActionResult<ProductDTO> AddProduct(ProductToCreateDTO product) 
         {
-            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-            if (userRole != "Admin")
-                return Forbid();
             var createdProduct = _productService.AddProduct(product);
             return CreatedAtRoute("GetProduct", new { productId = createdProduct.Id }, createdProduct);
         }
@@ -49,19 +46,14 @@ namespace Shop.API.Controllers
         [HttpPut]
         public ActionResult<ProductDTO> UpdateProductStock (ProductStockDTO newStock, int productId) 
         {
-            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-            if (userRole != "Admin")
-                return Forbid();
             _productService.UpdateProductStock(newStock.Stock, productId);
             return NoContent();
         }
 
         [HttpPut("/DeleteProduct")]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteProduct(int productId)
         {
-            var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-            if (userRole != "Admin")
-                return Forbid();
             _productService.DeleteProduct(productId);
             return NoContent();
         }
