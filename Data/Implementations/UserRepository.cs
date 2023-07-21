@@ -39,9 +39,7 @@ namespace Shop.API.Data.Implementations
 
         public User? ValidateUser(AuthenticationRequestBody authenticationRequestBody)
         {
-            if(authenticationRequestBody.Role == "Client")
-                return _context.Clients.FirstOrDefault(c  => c.UserName == authenticationRequestBody.UserName && c.Password == authenticationRequestBody.Password);
-            return _context.Admins.FirstOrDefault(a => a.UserName == authenticationRequestBody.UserName && a.Password == authenticationRequestBody.Password);
+            return _context.Users.FirstOrDefault(c => c.UserName == authenticationRequestBody.UserName && c.Password == authenticationRequestBody.Password);
         }
     }
 }
