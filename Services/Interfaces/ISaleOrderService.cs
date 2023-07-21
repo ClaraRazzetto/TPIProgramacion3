@@ -7,8 +7,8 @@ namespace Shop.API.Services.Interfaces
     {
         public SaleOrderDTO? GetSaleOrder(int SaleOrderId);
         public ICollection<SaleOrderDTO> GetAllSaleOrders();
-        public SaleOrderDTO AddSaleOrder(SaleOrderToCreateDTO SaleOrderToCreateDTO, int clientId);
-        public void UpdateSaleOrderStatus(SaleOrderStatus saleOrderStatus, int saleOrderId);
+        public SaleOrderDTO? AddSaleOrder(SaleOrderToCreateDTO SaleOrderToCreateDTO, int clientId);
+        public SaleOrderStatusDTO? UpdateSaleOrderStatus(int saleOrderId);
         public void DeleteSaleOrder(int saleOrderId);
     }
 }

@@ -8,7 +8,6 @@ namespace Shop.API.Controllers
 {
     [ApiController]
     [Route("api/saleOrder")]
-    [Authorize(Roles = ("Admin"))]
     public class SaleOrderController : ControllerBase
     {
         private readonly ISaleOrderService _saleOrderService;
@@ -19,6 +18,7 @@ namespace Shop.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult<SaleOrderDTO> GetAllSaleOrders()
         {
             var saleOrders = _saleOrderService.GetAllSaleOrders();
@@ -26,6 +26,7 @@ namespace Shop.API.Controllers
         }
 
         [HttpGet("{saleOrderId}", Name = "GetSaleOrder")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<SaleOrderDTO> GetSaleOrder(int saleOrderId)
         {
             var saleOrder = _saleOrderService.GetSaleOrder(saleOrderId);
@@ -33,28 +34,39 @@ namespace Shop.API.Controllers
                 return NotFound();
             return Ok(saleOrder);
         }
-
+        
+        
         [HttpPost("/Create")]
         [Authorize(Roles = "Client")]
-        public ActionResult<SaleOrderDTO> AddSaleOrder(SaleOrderToCreateDTO saleOrderToCreateDTO)
+        public ActionResult AddSaleOrder(SaleOrderToCreateDTO saleOrderToCreateDTO)
         { 
             var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             if (!int.TryParse(userIdClaim, out int id))
                 return Unauthorized();
-         
+            
             var createdSaleOrder = _saleOrderService.AddSaleOrder(saleOrderToCreateDTO, id);
+
+            if (createdSaleOrder == null)
+                return BadRequest();
+
             return CreatedAtRoute("GetSaleOrder", new { saleOrderId = createdSaleOrder.Id }, createdSaleOrder);
- 
+
         }
 
         [HttpPut("{saleOrderId}")]
-        public ActionResult ChangeSaleOrderStatus(int saleOrderId, SaleOrderStatusDTO newStatus) 
+        [Authorize(Roles = "Admin")]
+        public ActionResult<SaleOrderStatusDTO> ChangeSaleOrderStatus(int saleOrderId) 
         {
-            _saleOrderService.UpdateSaleOrderStatus(newStatus.Status, saleOrderId);
-            return NoContent();
+            var newStatus = _saleOrderService.UpdateSaleOrderStatus(saleOrderId);
+            if(newStatus == null)
+            {
+                return NotFound();
+            }
+            return Ok(newStatus);
         }
 
         [HttpDelete("{saleOrderId}")]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteSaleOrder(int saleOrderId) 
         {  
             _saleOrderService.DeleteSaleOrder(saleOrderId);

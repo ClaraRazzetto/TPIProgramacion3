@@ -23,7 +23,9 @@ builder.Services.AddSwaggerGen(setupAction =>
     {
         Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
-        Description = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZ2l2ZW5fbmFtZSI6ImFkbWluIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJuYmYiOjE2ODk5NDk1NTYsImV4cCI6MTY4OTk1MzE1NiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzE2OSIsImF1ZCI6ImNvbnN1bHRhYWx1bW5vc2FwaSJ9.0X3JKM20FCImAFkR3IYNmiFLLr_wLyS4ROGmxwuZWok"
+        Description = "Admin: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZ2l2ZW5fbmFtZSI6ImFkbWluIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJuYmYiOjE2ODk5NDk1NTYsImV4cCI6MTY4OTk1MzE1NiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzE2OSIsImF1ZCI6ImNvbnN1bHRhYWx1bW5vc2FwaSJ9.0X3JKM20FCImAFkR3IYNmiFLLr_wLyS4ROGmxwuZWok" +
+        "    " +
+        " Client: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZ2l2ZW5fbmFtZSI6IkNsYXJhUmF6emV0dG8iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJDbGllbnQiLCJuYmYiOjE2ODk5NjU2NjEsImV4cCI6MTY4OTk2OTI2MSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzE2OSIsImF1ZCI6ImNvbnN1bHRhYWx1bW5vc2FwaSJ9.9C8D-3bxA2bRef0QU3pVA_l81JLXZxJxj-Cdi2mhKIM"
     });
 
     setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement

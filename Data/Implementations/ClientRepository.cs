@@ -12,8 +12,11 @@ namespace Shop.API.Data.Implementations
         }
         public ICollection<SaleOrder> GetClientSaleOrders(int clientId)
         {
-            return _context.Clients.Where(c => c.Id == clientId)
-                .Select(c => c.SaleOrders).FirstOrDefault() ?? new List<SaleOrder>();
+            return _context.Clients
+                 .Where(c => c.Id == clientId)
+                 .SelectMany(c => c.SaleOrders)
+                 .Include(s => s.Product)
+                 .ToList();
         }
 
     }

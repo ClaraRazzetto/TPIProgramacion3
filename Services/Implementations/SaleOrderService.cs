@@ -29,14 +29,28 @@ namespace Shop.API.Services.Implementations
             var saleOrders = _saleOrderRepository.GetAllSaleOrders();
             return _mapper.Map<ICollection<SaleOrderDTO>>(saleOrders);
         }
-        public SaleOrderDTO AddSaleOrder(SaleOrderToCreateDTO SaleOrderToCreateDTO, int clientId)
+        public SaleOrderDTO? AddSaleOrder(SaleOrderToCreateDTO SaleOrderToCreateDTO, int clientId)
         {
             var newSaleOrder = _mapper.Map<SaleOrder>(SaleOrderToCreateDTO);
-            newSaleOrder.ClientId = clientId;
-            _saleOrderRepository.AddSaleOrder(newSaleOrder);
-            _saleOrderRepository.SaveChanges();
 
-            return _mapper.Map<SaleOrderDTO>(newSaleOrder);
+            
+
+            if(_productService.VerificateProduct(newSaleOrder.ProductId, newSaleOrder.ProductQuantity))
+            { 
+                newSaleOrder.ClientId = clientId;
+
+                newSaleOrder.Status = SaleOrderStatus.Pendiente;
+                
+                _saleOrderRepository.AddSaleOrder(newSaleOrder);
+            
+                _saleOrderRepository.SaveChanges();
+                
+                return _mapper.Map<SaleOrderDTO>(newSaleOrder);
+            }
+
+            return null;
+
+            
         }
 
         public void DeleteSaleOrder(int saleOrderId)
@@ -46,14 +60,24 @@ namespace Shop.API.Services.Implementations
             _saleOrderRepository.SaveChanges();
         }
 
-        public void UpdateSaleOrderStatus(SaleOrderStatus saleOrderStatus, int saleOrderId)
+        public SaleOrderStatusDTO? UpdateSaleOrderStatus(int saleOrderId)
         {
             var saleOrderToUpdate = _saleOrderRepository.GetSaleOrder(saleOrderId);
             if (saleOrderToUpdate != null)
             {
-                saleOrderToUpdate.Status = saleOrderStatus;
+                if(saleOrderToUpdate.Status == SaleOrderStatus.Pendiente)
+                     saleOrderToUpdate.Status = SaleOrderStatus.Finalizado;
+                else 
+                    saleOrderToUpdate.Status = SaleOrderStatus.Pendiente;
+                
                 _saleOrderRepository.SaveChanges();
+
+                return _mapper.Map<SaleOrderStatusDTO>(saleOrderToUpdate);
             }
+
+            return null;
         }
+
+
     }
 }

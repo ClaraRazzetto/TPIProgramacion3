@@ -51,7 +51,6 @@ namespace Shop.API.Controllers
         }
 
         [HttpPut("/DeleteProduct")]
-        [Authorize(Roles = "Admin")]
         public ActionResult DeleteProduct(int productId)
         {
             _productService.DeleteProduct(productId);

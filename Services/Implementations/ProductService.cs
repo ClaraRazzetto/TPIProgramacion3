@@ -57,5 +57,24 @@ namespace Shop.API.Services.Implementations
                 _productRepository.SaveChanges();
             }
         }
+        
+        public void RemoveStock (int quantity, Product productToRemoveFromStock)
+        {
+                productToRemoveFromStock.Stock -= quantity;
+                _productRepository.SaveChanges();
+        }
+
+        public bool VerificateProduct (int productid, int quantity)
+        {
+            var product = _productRepository.GetProductById(productid);
+            if (product == null)
+                return false;
+            if (product.Stock >= quantity)
+            {
+                RemoveStock(quantity, product);
+                return true;
+            }
+            return false;
+        }
     }
 }

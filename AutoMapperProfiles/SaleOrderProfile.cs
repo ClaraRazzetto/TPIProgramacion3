@@ -11,6 +11,7 @@ namespace Shop.API.AutoMapperProfiles
             //Mapeo la entidad al DTO
             CreateMap<SaleOrder, SaleOrderDTO>();
             CreateMap<SaleOrderToCreateDTO, SaleOrder>();
+            CreateMap<SaleOrder, SaleOrderStatusDTO>();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Shop.API.Data.Implementations
 {
     public class SaleOrderRepository : Repository, ISaleOrderRepository 
     {
-        public SaleOrderRepository(ShopContext context) : base(context)
+        public SaleOrderRepository(ShopContext context, IProductRepository productRepository) : base(context)
         {
         }
    
@@ -15,12 +15,15 @@ namespace Shop.API.Data.Implementations
         {
             return _context.SaleOrders
                 .OrderBy(s => s.Status)
+                .Include(s => s.Product)
                 .ToList();    
         }
 
         public SaleOrder? GetSaleOrder(int SaleOrderId)
         {
-            return _context.SaleOrders.FirstOrDefault(s => s.Id == SaleOrderId);
+            return _context.SaleOrders
+                .Include(s=> s.Product)
+                .FirstOrDefault(s => s.Id == SaleOrderId);
         }
         public void AddSaleOrder(SaleOrder newSaleOrder)
         {

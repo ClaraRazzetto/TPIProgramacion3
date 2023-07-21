@@ -10,5 +10,6 @@ namespace Shop.API.Services.Interfaces
         public ProductDTO AddProduct(ProductToCreateDTO productToCreateDTO);
         public void UpdateProductStock(int newStock, int productId);
         public void DeleteProduct(int productId);
+        public bool VerificateProduct(int productid, int requiredStock);
     }
 }
