@@ -33,8 +33,6 @@ namespace Shop.API.Services.Implementations
         {
             var newSaleOrder = _mapper.Map<SaleOrder>(SaleOrderToCreateDTO);
 
-            
-
             if(_productService.VerificateProduct(newSaleOrder.ProductId, newSaleOrder.ProductQuantity))
             { 
                 newSaleOrder.ClientId = clientId;
