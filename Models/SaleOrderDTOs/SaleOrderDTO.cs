@@ -13,6 +13,6 @@ namespace Shop.API.Models.SaleOrderDTOs
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public SaleOrderStatus Status { get; set; }
-        public float Total { get; }
+        public float Total { get; set; }
     }
 }
