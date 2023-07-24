@@ -59,9 +59,7 @@ namespace Shop.API.Controllers
         {
             var newStatus = _saleOrderService.UpdateSaleOrderStatus(saleOrderId);
             if(newStatus == null)
-            {
                 return NotFound();
-            }
             return Ok(newStatus);
         }
 
@@ -69,8 +67,10 @@ namespace Shop.API.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult DeleteSaleOrder(int saleOrderId) 
         {  
-            _saleOrderService.DeleteSaleOrder(saleOrderId);
-            return NoContent();
+            var deletedSaleOrder = _saleOrderService.DeleteSaleOrder(saleOrderId);
+            if(deletedSaleOrder == null)
+                return BadRequest();
+            return Ok();
         }
 
     }

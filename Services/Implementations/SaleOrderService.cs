@@ -51,11 +51,16 @@ namespace Shop.API.Services.Implementations
             
         }
 
-        public void DeleteSaleOrder(int saleOrderId)
+        public SaleOrderDTO? DeleteSaleOrder(int saleOrderId)
         {
             var saleOrder = _saleOrderRepository.GetSaleOrder(saleOrderId);
-            _saleOrderRepository.DeleteSaleOrder(saleOrderId);
-            _saleOrderRepository.SaveChanges();
+            
+            if(saleOrder != null) { 
+                _saleOrderRepository.DeleteSaleOrder(saleOrderId);
+                _saleOrderRepository.SaveChanges();
+            }
+            
+            return _mapper.Map<SaleOrderDTO>(saleOrder);
         }
 
         public SaleOrderStatusDTO? UpdateSaleOrderStatus(int saleOrderId)
@@ -69,11 +74,10 @@ namespace Shop.API.Services.Implementations
                     saleOrderToUpdate.Status = SaleOrderStatus.Pendiente;
                 
                 _saleOrderRepository.SaveChanges();
-
-                return _mapper.Map<SaleOrderStatusDTO>(saleOrderToUpdate);
+                
             }
 
-            return null;
+            return _mapper.Map<SaleOrderStatusDTO>(saleOrderToUpdate);
         }
 
 

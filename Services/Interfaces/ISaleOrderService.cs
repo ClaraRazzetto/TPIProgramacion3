@@ -9,6 +9,6 @@ namespace Shop.API.Services.Interfaces
         public ICollection<SaleOrderDTO> GetAllSaleOrders();
         public SaleOrderDTO? AddSaleOrder(SaleOrderToCreateDTO SaleOrderToCreateDTO, int clientId);
         public SaleOrderStatusDTO? UpdateSaleOrderStatus(int saleOrderId);
-        public void DeleteSaleOrder(int saleOrderId);
+        public SaleOrderDTO? DeleteSaleOrder(int saleOrderId);
     }
 }

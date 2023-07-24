@@ -32,23 +32,24 @@ namespace Shop.API.Services.Implementations
             var newProduct = _mapper.Map<Product>(productToCreateDTO);
             
             _productRepository.AddProduct(newProduct);
-            
+
             _productRepository.SaveChanges();
 
             return _mapper.Map<ProductDTO>(newProduct);
         }
         
-        public void UpdateProductStock(int newStock, int productId)
+        public ProductDTO? UpdateProductStock(int newStock, int productId)
         {
             var productToUpdate = _productRepository.GetProductById(productId);
             if(productToUpdate != null) 
             { 
                 productToUpdate.Stock = newStock;
-                _productRepository.SaveChanges();
-            }
+                _productRepository.SaveChanges();  
+            } 
+            return _mapper.Map<ProductDTO>(productToUpdate);
         }
 
-        public void DeleteProduct(int productId)
+        public ProductDTO DeleteProduct(int productId)
         {
             var productToUpdate = _productRepository.GetProductById(productId);
             if (productToUpdate != null)
@@ -56,6 +57,7 @@ namespace Shop.API.Services.Implementations
                 productToUpdate.Status = Enums.ProductStatus.Eliminado;
                 _productRepository.SaveChanges();
             }
+            return _mapper.Map<ProductDTO>(productToUpdate);
         }
         
         public void RemoveStock (int quantity, Product productToRemoveFromStock)

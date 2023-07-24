@@ -36,25 +36,37 @@ namespace Shop.API.Controllers
             return Ok(product);
         }
 
-        [HttpPost]
-        public ActionResult<ProductDTO> AddProduct(ProductToCreateDTO product) 
+        [HttpPost("/CreateNewProduct")]
+        public ActionResult AddProduct(ProductToCreateDTO product) 
         {
             var createdProduct = _productService.AddProduct(product);
+            
+            if (createdProduct == null)
+                return BadRequest();
+
             return CreatedAtRoute("GetProduct", new { productId = createdProduct.Id }, createdProduct);
         }
 
-        [HttpPut]
-        public ActionResult<ProductDTO> UpdateProductStock (ProductStockDTO newStock, int productId) 
+        [HttpPut("/UpdateProductStock")]
+        public ActionResult UpdateProductStock (ProductStockDTO newStock, int productId) 
         {
-            _productService.UpdateProductStock(newStock.Stock, productId);
-            return NoContent();
+            var updatedProduct = _productService.UpdateProductStock(newStock.Stock, productId);
+            
+            if(updatedProduct == null)
+                return BadRequest();
+
+            return CreatedAtRoute("GetProduct", new { productId = updatedProduct.Id }, updatedProduct);
         }
 
         [HttpPut("/DeleteProduct")]
         public ActionResult DeleteProduct(int productId)
         {
-            _productService.DeleteProduct(productId);
-            return NoContent();
+            var deletedProduct =_productService.DeleteProduct(productId);
+            
+            if(deletedProduct == null)
+                return BadRequest();
+
+            return Ok();
         }
 
         
