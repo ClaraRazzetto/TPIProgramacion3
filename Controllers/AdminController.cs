@@ -20,14 +20,14 @@ namespace Shop.API.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
+        [HttpGet("GetAllAdmins")]
         public ActionResult<ICollection<AdminDTO>> GetAllAdmins()
         {
             var admins = _adminService.GetAllAdmins();
             return Ok(admins);
         }
 
-        [HttpGet("/GetAdminById")]
+        [HttpGet("GetAdminById")]
         public ActionResult<AdminDTO> GetAdminById()
         {
             var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -42,7 +42,7 @@ namespace Shop.API.Controllers
             return Ok(admin);
         }
 
-        [HttpPost]
+        [HttpPost("SingIn")]
         [AllowAnonymous]
         public ActionResult AddAdmin(AdminToCreateDTO admin)
         {
@@ -50,7 +50,7 @@ namespace Shop.API.Controllers
             return NoContent();
         }
 
-        [HttpPut]
+        [HttpPut("Update")]
         public ActionResult UpdateAdmin(AdminToUpdateDTO admin)
         {
             var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -59,10 +59,10 @@ namespace Shop.API.Controllers
                 return Unauthorized();
 
             _adminService.UpdateAdmin(admin, userId);
-            return NoContent();
+            return Ok("Usuario actualizado con exito");
         }
 
-        [HttpDelete]
+        [HttpDelete("Delete")]
         public ActionResult DeleteAdmin () 
         {
             var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -71,7 +71,7 @@ namespace Shop.API.Controllers
                 return Unauthorized();
             
             _userService.DeleteUser(userid);
-            return NoContent();
+            return Ok("Usuario eliminado con exito");
         }
     }
 }

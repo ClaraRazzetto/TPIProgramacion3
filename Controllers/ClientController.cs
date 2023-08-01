@@ -21,7 +21,7 @@ namespace Shop.API.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
+        [HttpGet("GetAllClients")]
         [Authorize(Roles = "Admin, Client")]
         public ActionResult<ICollection<ClientDTO>> GetAllClients()
         {
@@ -66,7 +66,7 @@ namespace Shop.API.Controllers
   
         }
 
-        [HttpPost]
+        [HttpPost("SingIn")]
         [AllowAnonymous]
         public ActionResult<ClientDTO> AddClient(ClientToCreateDTO clientToCreate)
         {
@@ -74,9 +74,9 @@ namespace Shop.API.Controllers
             return CreatedAtRoute("GetClient", new { id = createdClient.Id }, createdClient);
         }
 
-        [HttpPut]
+        [HttpPut("Update")]
         [Authorize(Roles = "Client")]
-        public ActionResult UpdateClient(ClientToUpdateDTO clientToUpdate)
+        public ActionResult UpdateClient([FromBody] ClientToUpdateDTO clientToUpdate)
         {
             var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             
@@ -87,7 +87,7 @@ namespace Shop.API.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("Delete")]
         [Authorize(Roles = "Client")]
         public ActionResult DeleteClient()
         {

@@ -27,15 +27,16 @@ namespace Shop.API.Services.Implementations
 
            return _mapper.Map<IEnumerable<ProductDTO>>(products);
         }
-        public ProductDTO AddProduct(ProductToCreateDTO productToCreateDTO)
+        public ProductDTO? AddProduct(ProductToCreateDTO productToCreateDTO)
         {
-            var newProduct = _mapper.Map<Product>(productToCreateDTO);
-            
-            _productRepository.AddProduct(newProduct);
-
-            _productRepository.SaveChanges();
-
-            return _mapper.Map<ProductDTO>(newProduct);
+            if(productToCreateDTO.Stock >= 0) {
+                var newProduct = _mapper.Map<Product>(productToCreateDTO);
+                _productRepository.AddProduct(newProduct);
+                _productRepository.SaveChanges();  
+                return _mapper.Map<ProductDTO>(newProduct);
+            }
+            return null;
+           
         }
         
         public ProductDTO? UpdateProductStock(int newStock, int productId)
@@ -43,8 +44,10 @@ namespace Shop.API.Services.Implementations
             var productToUpdate = _productRepository.GetProductById(productId);
             if(productToUpdate != null) 
             { 
+                if(newStock  >= 0) { 
                 productToUpdate.Stock = newStock;
-                _productRepository.SaveChanges();  
+                _productRepository.SaveChanges(); 
+                } 
             } 
             return _mapper.Map<ProductDTO>(productToUpdate);
         }
@@ -71,7 +74,7 @@ namespace Shop.API.Services.Implementations
             var product = _productRepository.GetProductById(productid);
             if (product == null)
                 return false;
-            if (product.Stock >= quantity)
+            if (quantity > 0 && product.Stock >= quantity)
             {
                 RemoveStock(quantity, product);
                 return true;

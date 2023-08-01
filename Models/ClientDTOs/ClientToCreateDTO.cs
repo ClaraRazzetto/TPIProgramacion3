@@ -15,6 +15,7 @@ namespace Shop.API.Models.ClientDTOs
         public string LastName { get; set; }
         public string? Adress { get; set; }
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
     }
 }

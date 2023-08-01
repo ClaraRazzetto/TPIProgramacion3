@@ -18,7 +18,7 @@ namespace Shop.API.Controllers
             _productService = productService;
         }
 
-        [HttpGet]
+        [HttpGet("GetAllProducts")]
         [AllowAnonymous]
         public ActionResult<ICollection<ProductDTO>> GetAllProducts()
         {
@@ -36,7 +36,7 @@ namespace Shop.API.Controllers
             return Ok(product);
         }
 
-        [HttpPost("/CreateNewProduct")]
+        [HttpPost("CreateNewProduct")]
         public ActionResult AddProduct(ProductToCreateDTO product) 
         {
             var createdProduct = _productService.AddProduct(product);
@@ -47,7 +47,7 @@ namespace Shop.API.Controllers
             return CreatedAtRoute("GetProduct", new { productId = createdProduct.Id }, createdProduct);
         }
 
-        [HttpPut("/UpdateProductStock")]
+        [HttpPut("UpdateProductStock")]
         public ActionResult UpdateProductStock (ProductStockDTO newStock, int productId) 
         {
             var updatedProduct = _productService.UpdateProductStock(newStock.Stock, productId);
@@ -58,7 +58,7 @@ namespace Shop.API.Controllers
             return CreatedAtRoute("GetProduct", new { productId = updatedProduct.Id }, updatedProduct);
         }
 
-        [HttpPut("/DeleteProduct")]
+        [HttpPut("DeleteProduct")]
         public ActionResult DeleteProduct(int productId)
         {
             var deletedProduct =_productService.DeleteProduct(productId);
@@ -66,7 +66,7 @@ namespace Shop.API.Controllers
             if(deletedProduct == null)
                 return BadRequest();
 
-            return Ok();
+            return Ok("Producto eliminado con exito");
         }
 
         

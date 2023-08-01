@@ -17,7 +17,7 @@ namespace Shop.API.Controllers
             _saleOrderService = saleOrderService;
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         [Authorize(Roles = "Admin")]
         public ActionResult<SaleOrderDTO> GetAllSaleOrders()
         {
@@ -36,7 +36,7 @@ namespace Shop.API.Controllers
         }
         
         
-        [HttpPost("/Create")]
+        [HttpPost("Create")]
         [Authorize(Roles = "Client")]
         public ActionResult AddSaleOrder(SaleOrderToCreateDTO saleOrderToCreateDTO)
         { 
@@ -60,9 +60,10 @@ namespace Shop.API.Controllers
             var newStatus = _saleOrderService.UpdateSaleOrderStatus(saleOrderId);
             if(newStatus == null)
                 return NotFound();
-            return Ok(newStatus);
+            return Ok("Estado de orden: " + newStatus);
         }
 
+        
         [HttpDelete("{saleOrderId}")]
         [Authorize(Roles = "Admin")]
         public ActionResult DeleteSaleOrder(int saleOrderId) 
@@ -70,7 +71,7 @@ namespace Shop.API.Controllers
             var deletedSaleOrder = _saleOrderService.DeleteSaleOrder(saleOrderId);
             if(deletedSaleOrder == null)
                 return BadRequest();
-            return Ok();
+            return Ok("Orden eliminada con Exito");
         }
 
     }
